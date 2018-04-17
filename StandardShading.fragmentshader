@@ -15,6 +15,10 @@ uniform sampler2D myTextureSampler;
 uniform mat4 MV;
 uniform vec3 LightPosition_worldspace;
 
+uniform float ambience_factor = 1.0f;
+uniform float diffuse_factor = 1.0f;
+uniform float specular_factor = 1.0f;
+
 void main(){
 
 	// Light emission properties
@@ -53,10 +57,10 @@ void main(){
 	
 	color = 
 		// Ambient : simulates indirect lighting
-		MaterialAmbientColor +
+		MaterialAmbientColor * ambience_factor +
 		// Diffuse : "color" of the object
-		MaterialDiffuseColor * LightColor * LightPower * cosTheta / (distance*distance) +
+		MaterialDiffuseColor * LightColor * LightPower * cosTheta * diffuse_factor / (distance*distance) +
 		// Specular : reflective highlight, like a mirror
-		MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha,5) / (distance*distance);
+		MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha,5) * specular_factor / (distance*distance);
 
 }

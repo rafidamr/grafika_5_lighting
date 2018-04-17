@@ -8,7 +8,6 @@ extern GLFWwindow* window; // The "extern" keyword here is to access the variabl
 using namespace glm;
 
 #include "controls.hpp"
-#include "shader.hpp"
 
 glm::mat4 ViewMatrix;
 glm::mat4 ProjectionMatrix;
@@ -20,21 +19,6 @@ glm::mat4 getProjectionMatrix(){
 	return ProjectionMatrix;
 }
 
-GLfloat ambience_factor = 1.0f;
-GLfloat diffuse_factor = 1.0f;
-GLfloat specular_factor = 1.0f;
-
-GLfloat getAmbienceFactor() {
-	return ambience_factor;
-}
-
-GLfloat getDiffuseFactor() {
-	return diffuse_factor;
-}
-
-GLfloat getSpecularFactor() {
-	return specular_factor;
-}
 
 // Initial position : on +Z
 glm::vec3 position = glm::vec3( 0, 0, 5 ); 
@@ -47,6 +31,8 @@ float initialFoV = 45.0f;
 
 float speed = 3.0f; // 3 units / second
 float mouseSpeed = 0.005f;
+
+
 
 void computeMatricesFromInputs(){
 
@@ -81,6 +67,7 @@ void computeMatricesFromInputs(){
 		0,
 		cos(horizontalAngle - 3.14f/2.0f)
 	);
+	
 	// Up vector
 	glm::vec3 up = glm::cross( right, direction );
 
@@ -99,29 +86,6 @@ void computeMatricesFromInputs(){
 	// Strafe left
 	if (glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS){
 		position -= right * deltaTime * speed;
-	}
-	// Decrease Ambience Color
-	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS) {
-		ambience_factor /= 1.005f;
-	}
-	// Increase Ambience Color
-	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS) {
-		ambience_factor *= 1.005f;
-	}
-	// Decrease Diffuse Color
-	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
-		diffuse_factor /= 1.005f;
-	}
-	// Increase Ambience Color
-	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
-		diffuse_factor *= 1.005f;
-	}// Decrease Diffuse Color
-	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
-		specular_factor /= 1.01f;
-	}
-	// Increase Ambience Color
-	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
-		specular_factor *= 1.01f;
 	}
 
 	float FoV = initialFoV;// - 5 * glfwGetMouseWheel(); // Now GLFW 3 requires setting up a callback for this. It's a bit too complicated for this beginner's tutorial, so it's disabled instead.
